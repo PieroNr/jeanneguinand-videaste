@@ -48,7 +48,7 @@
     .video-block { margin-bottom: 48px; }
     .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; background: var(--surface); border: 1px solid var(--border); }
     .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-    .video-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; cursor: pointer; }
+    .video-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; cursor: pointer; background-image: linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),var(--thumb,none); background-size: cover; background-position: center; }
     .play-btn { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
     .play-btn:hover { background: var(--accent); }
     .play-btn:hover svg path { fill: #000; }
@@ -123,7 +123,7 @@
 </section>
 <section class="videos-section">
   <div class="videos-label">Vidéo</div>
-  <div class="video-block"><div class="video-wrapper"><div class="video-placeholder" onclick="loadVideo(this, '-cKFlwPoQ34')"><div class="play-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l16 8-16 8V4z"/></svg></div><span class="play-label">Lancer la vidéo</span></div></div></div>
+  <div class="video-block"><div class="video-wrapper"><div class="video-placeholder" style="--thumb:url('https://img.youtube.com/vi/-cKFlwPoQ34/hqdefault.jpg')" onclick="loadVideo(this, '-cKFlwPoQ34')"><div class="play-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l16 8-16 8V4z"/></svg></div><span class="play-label">Lancer la vidéo</span></div></div></div>
 </section>
 <nav class="projects-nav">
   <a href="projet-caisse-epargne.html" class="proj-nav-link"><span class="proj-nav-dir">← Projet précédent</span><span class="proj-nav-title">Caisse d'Épargne</span></a>
