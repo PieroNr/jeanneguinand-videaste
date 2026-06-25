@@ -48,8 +48,8 @@
     .video-block { margin-bottom: 48px; }
     .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; background: var(--surface); border: 1px solid var(--border); }
     .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-    .shorts-grid { display: flex; gap: 24px; }
-    .shorts-grid .video-block { flex: 0 0 auto; width: 300px; margin-bottom: 0; }
+    .shorts-grid { display: flex; gap: 32px; justify-content: center; }
+    .shorts-grid .video-block { flex: 0 0 auto; width: 360px; margin-bottom: 0; }
     .video-wrapper.shorts { padding-bottom: 0; aspect-ratio: 9 / 16; height: auto; }
     .video-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; cursor: pointer; background-image: linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),var(--thumb,none); background-size: cover; background-position: center; }
     .play-btn { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
@@ -86,7 +86,7 @@
       footer { grid-template-columns: 1fr; padding: 64px 24px 40px; }
       .footer-right { align-items: flex-start; }
       .shorts-grid { flex-direction: column; }
-      .shorts-grid .video-block { width: 100%; max-width: 360px; }
+      .shorts-grid .video-block { width: 100%; max-width: 400px; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
   </style>
@@ -134,7 +134,7 @@
   </div>
 </section>
 <nav class="projects-nav">
-  <a href="projet-mariage.html" class="proj-nav-link"><span class="proj-nav-dir">← Projet précédent</span><span class="proj-nav-title">Mariage Noémie &amp; Jérôme</span></a>
+  <a href="projets.html" class="proj-nav-link"><span class="proj-nav-dir">← Tous les projets</span><span class="proj-nav-title">Vue d'ensemble</span></a>
   <div class="proj-nav-sep"></div>
   <a href="projet-inseec.html" class="proj-nav-link next"><span class="proj-nav-dir">Projet suivant →</span><span class="proj-nav-title">Inseec BBA</span></a>
 </nav>

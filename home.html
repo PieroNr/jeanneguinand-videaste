@@ -197,9 +197,8 @@
       align-items: center;
       justify-content: center;
       gap: 20px;
-      background: var(--surface);
+      background: rgba(0,0,0,0.35);
       cursor: pointer;
-      border: 1px solid var(--border);
     }
 
     .play-btn {
@@ -544,6 +543,9 @@
 <div class="showreel">
   <div class="showreel-label">SHOW<span>REEL</span></div>
   <div class="showreel-wrapper">
+    <video id="showreelVideo" preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;">
+      <source src="video/showreel%202026.mp4" type="video/mp4">
+    </video>
     <div class="showreel-placeholder" id="showreelPlaceholder" onclick="loadShowreel()">
       <div class="play-btn">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -626,16 +628,16 @@
 </footer>
 
 <script>
-  // Showreel — remplace l'URL par ton lien YouTube
-  const YOUTUBE_ID = 'VOTRE_ID_YOUTUBE'; // ex: 'dQw4w9WgXcQ'
+  const showreelVideo = document.getElementById('showreelVideo');
+  showreelVideo.addEventListener('loadedmetadata', () => {
+    showreelVideo.currentTime = 1;
+  });
 
   function loadShowreel() {
-    const placeholder = document.getElementById('showreelPlaceholder');
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0&modestbranding=1`;
-    iframe.allow = 'autoplay; encrypted-media; fullscreen';
-    iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
-    placeholder.replaceWith(iframe);
+    document.getElementById('showreelPlaceholder').style.display = 'none';
+    showreelVideo.setAttribute('controls', '');
+    showreelVideo.currentTime = 0;
+    showreelVideo.play();
   }
 
   // Mobile menu
