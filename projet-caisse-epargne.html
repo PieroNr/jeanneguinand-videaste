@@ -47,8 +47,10 @@
     .videos-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--accent); opacity: 0.4; }
     .video-block { margin-bottom: 48px; }
     .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; background: var(--surface); border: 1px solid var(--border); }
-    .video-wrapper.shorts { max-width: 360px; padding-bottom: 0; height: 640px; }
     .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .shorts-grid { display: flex; gap: 24px; }
+    .shorts-grid .video-block { flex: 0 0 auto; width: 300px; margin-bottom: 0; }
+    .video-wrapper.shorts { padding-bottom: 0; aspect-ratio: 9 / 16; height: auto; }
     .video-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; cursor: pointer; }
     .play-btn { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
     .play-btn:hover { background: var(--accent); }
@@ -83,6 +85,8 @@
       .projects-nav { padding: 40px 24px; }
       footer { grid-template-columns: 1fr; padding: 64px 24px 40px; }
       .footer-right { align-items: flex-start; }
+      .shorts-grid { flex-direction: column; }
+      .shorts-grid .video-block { width: 100%; max-width: 360px; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
   </style>
@@ -124,8 +128,10 @@
 </section>
 <section class="videos-section">
   <div class="videos-label">Vidéo</div>
-  <div class="video-block"><div class="video-wrapper shorts"><div class="video-placeholder" onclick="loadVideo(this, '6fS_rEiyvaA')"><div class="play-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l16 8-16 8V4z"/></svg></div><span class="play-label">Lancer la vidéo 1</span></div></div></div>
-  <div class="video-block"><div class="video-wrapper shorts"><div class="video-placeholder" onclick="loadVideo(this, 'PtB_V5Yd-Os')"><div class="play-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l16 8-16 8V4z"/></svg></div><span class="play-label">Lancer la vidéo 2</span></div></div></div>
+  <div class="shorts-grid">
+    <div class="video-block"><div class="video-wrapper shorts"><div class="video-placeholder" onclick="loadVideo(this, '6fS_rEiyvaA')"><div class="play-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l16 8-16 8V4z"/></svg></div><span class="play-label">Lancer la vidéo 1</span></div></div></div>
+    <div class="video-block"><div class="video-wrapper shorts"><div class="video-placeholder" onclick="loadVideo(this, 'PtB_V5Yd-Os')"><div class="play-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l16 8-16 8V4z"/></svg></div><span class="play-label">Lancer la vidéo 2</span></div></div></div>
+  </div>
 </section>
 <nav class="projects-nav">
   <a href="projet-mariage.html" class="proj-nav-link"><span class="proj-nav-dir">← Projet précédent</span><span class="proj-nav-title">Mariage Noémie &amp; Jérôme</span></a>
