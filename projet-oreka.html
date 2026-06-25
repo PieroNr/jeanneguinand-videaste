@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motion design — O'rêka · Jeanne Guinand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0A0A0A; --surface: #141414; --border: #222;
+      --text: #FFFFFF; --text-muted: #888; --accent: #0066FF;
+      --font-display: 'Bebas Neue', sans-serif; --font-body: 'Inter', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 24px 48px; background: rgba(10,10,10,0.95); backdrop-filter: blur(4px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 1px; background: var(--text); }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 99; flex-direction: column; justify-content: center; align-items: center; gap: 40px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: var(--font-display); font-size: 3rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; transition: color 0.2s; }
+    .mobile-menu a:hover { color: var(--accent); }
+    .back { padding: 120px 48px 0; display: flex; }
+    .back a { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: color 0.2s; }
+    .back a:hover { color: var(--accent); }
+    .projet-header { padding: 48px 48px 80px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; border-bottom: 1px solid var(--border); }
+    .projet-category { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+    .projet-category::after { content: ''; width: 48px; height: 1px; background: var(--accent); opacity: 0.4; }
+    .projet-title { font-family: var(--font-display); font-size: clamp(3rem, 7vw, 7rem); letter-spacing: 0.02em; line-height: 0.95; }
+    .projet-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-bottom: 8px; }
+    .meta-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+    .meta-value { font-size: 0.9rem; font-weight: 500; color: var(--text); text-align: right; }
+    .meta-divider { width: 1px; height: 32px; background: var(--border); margin: 4px auto; }
+    .brief-section { padding: 80px 48px; display: grid; grid-template-columns: 200px 1fr; gap: 80px; border-bottom: 1px solid var(--border); }
+    .brief-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); padding-top: 4px; }
+    .brief-text { font-size: 1.05rem; line-height: 1.8; color: var(--text); font-weight: 300; max-width: 640px; }
+    .brief-text p + p { margin-top: 20px; }
+    .videos-section { padding: 80px 48px 120px; }
+    .videos-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 48px; display: flex; align-items: center; gap: 16px; }
+    .videos-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--accent); opacity: 0.4; }
+    .video-block { margin-bottom: 48px; }
+    .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; background: var(--surface); border: 1px solid var(--border); }
+    .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    .video-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; cursor: pointer; }
+    .play-btn { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .play-btn:hover { background: var(--accent); }
+    .play-btn:hover svg path { fill: #000; }
+    .play-btn svg { width: 24px; height: 24px; margin-left: 4px; }
+    .play-btn svg path { fill: var(--accent); transition: fill 0.2s; }
+    .play-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+    .projects-nav { border-top: 1px solid var(--border); padding: 48px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .proj-nav-link { text-decoration: none; display: flex; flex-direction: column; gap: 8px; }
+    .proj-nav-link.next { align-items: flex-end; }
+    .proj-nav-dir { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+    .proj-nav-title { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.04em; color: var(--text); transition: color 0.2s; }
+    .proj-nav-link:hover .proj-nav-title { color: var(--accent); }
+    .proj-nav-sep { width: 1px; height: 48px; background: var(--border); }
+    footer { border-top: 1px solid var(--border); padding: 80px 48px 48px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; }
+    .footer-tag { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+    .footer-headline { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing: 0.04em; line-height: 1; margin-bottom: 32px; }
+    .footer-email { font-size: 1rem; color: var(--text-muted); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 4px; transition: color 0.2s, border-color 0.2s; }
+    .footer-email:hover { color: var(--accent); border-color: var(--accent); }
+    .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+    .social-links { display: flex; gap: 24px; }
+    .social-links a { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .social-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 0.7rem; color: #333; letter-spacing: 0.05em; }
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; } .nav-links { display: none; } .hamburger { display: flex; }
+      .back { padding: 100px 24px 0; }
+      .projet-header { grid-template-columns: 1fr; padding: 40px 24px 60px; gap: 32px; }
+      .projet-meta { align-items: flex-start; }
+      .brief-section { grid-template-columns: 1fr; gap: 24px; padding: 60px 24px; }
+      .videos-section { padding: 60px 24px 80px; }
+      .projects-nav { padding: 40px 24px; }
+      footer { grid-template-columns: 1fr; padding: 64px 24px 40px; }
+      .footer-right { align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="home.html" class="nav-logo">JG</a>
+  <ul class="nav-links">
+    <li><a href="projets.html" class="active">Projets</a></li>
+    <li><a href="apropos.html">À propos</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="projets.html" onclick="toggleMenu()">Projets</a>
+  <a href="apropos.html" onclick="toggleMenu()">À propos</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+<div class="back"><a href="projets.html">← Tous les projets</a></div>
+<header class="projet-header">
+  <div>
+    <div class="projet-category">Motion design</div>
+    <h1 class="projet-title">O'rêka</h1>
+  </div>
+  <div class="projet-meta">
+    <span class="meta-label">Client</span>
+    <span class="meta-value">O'rêka</span>
+    <div class="meta-divider"></div>
+    <span class="meta-label">Format</span>
+    <span class="meta-value">Motion design</span>
+  </div>
+</header>
+<section class="brief-section">
+  <div class="brief-label">Brief</div>
+  <div class="brief-text"><p>Vidéo de présentation du dispositif O'rêka, réalisée en respectant scrupuleusement la charte graphique existante.</p><p>L'objectif&nbsp;: rendre le propos clair, lisible, et visuellement cohérent avec l'identité de la structure.</p></div>
+</section>
+<section class="videos-section">
+  <div class="videos-label">Vidéo</div>
+  <div class="video-block"><div class="video-wrapper"><div class="video-placeholder" onclick="loadVideo(this, 'YOUTUBE_ID_1')"><div class="play-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l16 8-16 8V4z"/></svg></div><span class="play-label">Lancer la vidéo</span></div></div></div>
+</section>
+<nav class="projects-nav">
+  <a href="projet-worldskills.html" class="proj-nav-link"><span class="proj-nav-dir">← Projet précédent</span><span class="proj-nav-title">Worldskills</span></a>
+  <div class="proj-nav-sep"></div>
+  <a href="projet-mondial-metiers.html" class="proj-nav-link next"><span class="proj-nav-dir">Projet suivant →</span><span class="proj-nav-title">Mondial des Métiers</span></a>
+</nav>
+<footer id="contact">
+  <div class="footer-left">
+    <div class="footer-tag">Contact</div>
+    <div class="footer-headline">Travaillons<br>ensemble.</div>
+    <a href="mailto:jeanneguinand@hotmail.fr" class="footer-email">jeanneguinand@hotmail.fr</a>
+  </div>
+  <div class="footer-right">
+    <div class="social-links">
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 Jeanne Guinand</p>
+  </div>
+</footer>
+<script>
+  function loadVideo(placeholder, youtubeId) {
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+    iframe.allow = 'autoplay; encrypted-media; fullscreen';
+    iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
+    placeholder.replaceWith(iframe);
+  }
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+</script>
+</body>
+</html>

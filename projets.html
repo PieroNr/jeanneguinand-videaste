@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projets — Jeanne Guinand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0A0A0A;
+      --surface: #141414;
+      --border: #222;
+      --text: #FFFFFF;
+      --text-muted: #888;
+      --accent: #0066FF;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(4px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--text);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 99;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--accent); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 160px 48px 80px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .eyebrow::after {
+      content: '';
+      width: 48px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 9rem);
+      letter-spacing: 0.02em;
+      line-height: 0.9;
+    }
+
+    .page-subtitle {
+      margin-top: 24px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 480px;
+    }
+
+    /* ── GRILLE PROJETS ── */
+    .projects-section {
+      padding: 80px 48px 120px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .project-card {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      background: var(--surface);
+    }
+
+    /* Placeholder visuel par projet */
+    .project-card .card-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.6s ease;
+      filter: brightness(0.6);
+    }
+
+    .project-card:hover .card-bg {
+      transform: scale(1.04);
+      filter: brightness(0.3);
+    }
+
+    /* Overlay couleur au hover */
+    .project-card .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      mix-blend-mode: multiply;
+    }
+
+    .project-card:hover .card-overlay {
+      opacity: 0.7;
+    }
+
+    /* Contenu texte */
+    .card-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px;
+      z-index: 2;
+    }
+
+    .card-category {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s;
+    }
+
+    .project-card:hover .card-category {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      color: var(--text);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+    }
+
+    .project-card:hover .card-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Numéro visible au repos */
+    .card-num {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.1em;
+      transition: opacity 0.3s;
+      z-index: 2;
+    }
+
+    .project-card:hover .card-num { opacity: 0; }
+
+    /* Couleurs de fond placeholder */
+    .card-bg-1 { background-color: #1a1a2e; }
+    .card-bg-2 { background-color: #0d1b2a; }
+    .card-bg-3 { background-color: #1a0a0a; }
+    .card-bg-4 { background-color: #0a1a0a; }
+    .card-bg-5 { background-color: #1a1500; }
+    .card-bg-6 { background-color: #1a0a1a; }
+    .card-bg-7 { background-color: #001a1a; }
+
+    /* ── FOOTER CONTACT ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 80px 48px 48px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: end;
+    }
+
+    .footer-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .footer-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 32px;
+    }
+
+    .footer-email {
+      font-size: 1rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .footer-email:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .social-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .social-links a:hover { color: var(--accent); }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      color: #333;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .page-header { padding: 120px 24px 60px; }
+      .projects-section { padding: 48px 24px 80px; }
+
+      footer {
+        grid-template-columns: 1fr;
+        padding: 64px 24px 40px;
+      }
+
+      .footer-right { align-items: flex-start; }
+
+      /* Sur mobile on affiche titre + catégorie en permanence */
+      .card-category,
+      .card-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .card-bg { filter: brightness(0.4); }
+    }
+
+    @media (max-width: 500px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="nav-logo">JG</a>
+  <ul class="nav-links">
+    <li><a href="projets.html" class="active">Projets</a></li>
+    <li><a href="apropos.html">À propos</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="projets.html" onclick="toggleMenu()">Projets</a>
+  <a href="apropos.html" onclick="toggleMenu()">À propos</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- ── PAGE HEADER ── -->
+<header class="page-header">
+  <div class="eyebrow">Réalisations</div>
+  <h1 class="page-title">Projets</h1>
+  <p class="page-subtitle">Une sélection de réalisations — tous formats, tous univers.</p>
+</header>
+
+<!-- ── GRILLE PROJETS ── -->
+<section class="projects-section">
+  <div class="projects-grid">
+
+    <!-- 1 -->
+    <a href="projet-mariage.html" class="project-card">
+      <div class="card-bg card-bg-1"></div>
+      <div class="card-overlay"></div>
+      <span class="card-num">01</span>
+      <div class="card-content">
+        <span class="card-category">Aftermovie</span>
+        <span class="card-title">Mariage<br>Noémie &amp; Jérôme</span>
+      </div>
+    </a>
+
+    <!-- 2 -->
+    <a href="projet-caisse-epargne.html" class="project-card">
+      <div class="card-bg card-bg-2"></div>
+      <div class="card-overlay"></div>
+      <span class="card-num">02</span>
+      <div class="card-content">
+        <span class="card-category">Reels</span>
+        <span class="card-title">Caisse d'Épargne<br>Rhône Alpes</span>
+      </div>
+    </a>
+
+    <!-- 3 -->
+    <a href="projet-inseec.html" class="project-card">
+      <div class="card-bg card-bg-3"></div>
+      <div class="card-overlay"></div>
+      <span class="card-num">03</span>
+      <div class="card-content">
+        <span class="card-category">Aftermovie</span>
+        <span class="card-title">Inseec BBA</span>
+      </div>
+    </a>
+
+    <!-- 4 -->
+    <a href="projet-erha.html" class="project-card">
+      <div class="card-bg card-bg-4"></div>
+      <div class="card-overlay"></div>
+      <span class="card-num">04</span>
+      <div class="card-content">
+        <span class="card-category">Clip vidéo</span>
+        <span class="card-title">Erha</span>
+      </div>
+    </a>
+
+    <!-- 5 -->
+    <a href="projet-worldskills.html" class="project-card">
+      <div class="card-bg card-bg-5"></div>
+      <div class="card-overlay"></div>
+      <span class="card-num">05</span>
+      <div class="card-content">
+        <span class="card-category">Interviews &amp; Aftermovie</span>
+        <span class="card-title">Équipe régionale<br>Worldskills</span>
+      </div>
+    </a>
+
+    <!-- 6 -->
+    <a href="projet-oreka.html" class="project-card">
+      <div class="card-bg card-bg-6"></div>
+      <div class="card-overlay"></div>
+      <span class="card-num">06</span>
+      <div class="card-content">
+        <span class="card-category">Motion design</span>
+        <span class="card-title">O'rêka</span>
+      </div>
+    </a>
+
+    <!-- 7 -->
+    <a href="projet-mondial-metiers.html" class="project-card">
+      <div class="card-bg card-bg-7"></div>
+      <div class="card-overlay"></div>
+      <span class="card-num">07</span>
+      <div class="card-content">
+        <span class="card-category">Teaser &amp; Aftermovie</span>
+        <span class="card-title">Mondial<br>des Métiers</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ── FOOTER CONTACT ── -->
+<footer id="contact">
+  <div class="footer-left">
+    <div class="footer-tag">Contact</div>
+    <div class="footer-headline">Travaillons<br>ensemble.</div>
+    <a href="mailto:jeanneguinand@hotmail.fr" class="footer-email">jeanneguinand@hotmail.fr</a>
+  </div>
+  <div class="footer-right">
+    <div class="social-links">
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 Jeanne Guinand</p>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
